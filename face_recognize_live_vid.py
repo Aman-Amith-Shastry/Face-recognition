@@ -11,7 +11,7 @@ train_encodings = []
 Names = []
 scale_factor = 0.25
 
-cast = pychromecast.Chromecast("192.168.1.42")
+cast = pychromecast.Chromecast(" *Your Google home's local IP address* ")
 cast.wait()
 print(cast.name)
 mc = cast.media_controller
@@ -36,9 +36,9 @@ def email_alert(subject, body, to):
         msg['subject'] = subject
         msg['to'] = to
         
-        user = "amanshastrychess@gmail.com"
+        user = " *Your email ID* "
         msg['from'] = user
-        password = "okuzufnafknodfai"
+        password = " *Your Google account's double authentication password* "
 
         server = smtplib.SMTP('smtp.gmail.com',587)
         server.starttls()
@@ -67,7 +67,8 @@ cam = cv2.VideoCapture(0)
 font = cv2.FONT_HERSHEY_SIMPLEX
 
 while __name__ == '__main__':
-    p = multiprocessing.Process(target=web_server, args=(), daemon=True)
+    p = multiprocessing.Process(target=web_server, args=())
+    p.daemon = True
     p.start()
 
     r,img = cam.read()
@@ -87,19 +88,19 @@ while __name__ == '__main__':
             image_index = matches.index(True)
             name = Names[image_index]
             email = "Log in by: "+name
-            url = "http://192.168.1.129:8000/"+name+".mp3"
+            url = "http:// *Your computer's local IP address* :8000/"+name+".mp3"
             print(url)
             if name != nameOld:
                 speak = True
-                mail = True
             nameOld = name
             caster(url)
             top = int(top//scale_factor)
             left = int(left//scale_factor)
             bottom = int(bottom//scale_factor)
             right = int(right//scale_factor)
-            cv2.rectangle(img,(left,top),(right,bottom),(0,255,0),2)
+            cv2.rectangle(img,(top,left),(bottom,right),(0,255,0),2)
             cv2.putText(img,name,(left,top),font,0.75,(0,255,0),thickness=2)
     
+
     cv2.imwrite("login.jpg",img)
-    email_alert("Update",email,"amanshastrychess@gmail.com")
+    email_alert("Update",email," *To email address* ")
